@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+
+<!--title on tab browser-->
+{% block title %}Add client{% endblock title %}
+
+<!--navbar content-->
+{% block navbar-content %}
+<i class="fas fa-user-plus"></i>&nbsp;&nbsp;Add Client
+{% endblock navbar-content %}
+
+<!--button on navbar-->
+{% block nav-btn %}
+<a href="{% url 'logout'%}" class="btn btn-outline-danger border-light text-light btn-sm" id="btn-nav" style="color:#0dcaf0;">Logout</a>
+{% endblock nav-btn %}
+
+
+<!--content page-->
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card card-body border-dark text-primary mt-5">
+                <span class="text-center">FILL THE FORM BELOW</span>
+            </div>
+            <!--Form-->
+            <form action="/add_client" method="POST" enctype="multipart/form-data" class="card p-3 border-dard mt-3">
+                {% csrf_token %}
+
+                <div class="input-group input-group-sm mb-3">
+                    <span class="input-group-text side-label">Name</span>
+                    <input type="text" class="form-control" name="name" placeholder="client name" required>
+                </div>
+
+                <div class="input-group input-group-sm mb-3">
+                    <span class="input-group-text side-label">Phone</span>
+                    <input type="text" class="form-control" name="phone" placeholder="client phone" required>
+                </div>
+
+                <div class="input-group input-group-sm mb-3">
+                    <span class="input-group-text side-label">Email</span>
+                    <input type="text" class="form-control" name="email" placeholder="client email" required>
+                </div>
+
+                <div class="input-group input-group-sm mb-3">
+                    <span class="input-group-text side-label">Age</span>
+                    <input type="text" class="form-control" name="age" placeholder="client age" required>
+                </div>
+
+                <div class="input-group input-group-sm mb-3">
+                    <label class="input-group-text side-label">Gender</label>
+                    <select class="form-select" name="gender" required>
+                        <option value=""hidden>select the gender</option>
+                        <option disabled></option>
+                        <option>M</option>
+                        <option>F</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <textarea class="form-control" name="note"rows="7" placeholder="Description is optional.."></textarea>
+                </div>
+
+                <div class="d-grid gap-2 mt-3">
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        <i class="fas fa-plus"></i>&nbsp;&nbsp;Add
+                    </button>
+                    <a href="{% url 'backend' %}" class="btn btn-dark btn-sm"><i class="fas fa-chevron-left"></i> &nbsp;&nbsp; Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

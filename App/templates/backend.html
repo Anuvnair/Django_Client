@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+<!--title on tab browser-->
+{% block title %}All clients{% endblock title %}
+
+<!--navbar content-->
+{% block navbar-content %}
+<i class="fas fa-hospital-user"></i>&nbsp;&nbsp; Clients
+{% endblock navbar-content %}
+
+<!--button on navbar-->
+{% block nav-btn %}
+<a href="{% url 'logout'%}" class="btn btn-outline-danger border-light text-light btn-sm" id="btn-nav" style="color:#0dcaf0;">Logout</a>
+{% endblock nav-btn %}
+
+<!--page content-->
+{% block content %}
+<div class="container">
+    <br><br>
+    <div class="d-flex justify-content-between">
+        <!--1) column add client-->
+        <a href="{% url 'add_client' %}" class="btn btn-outline-primary btn-sm"><i class="fas fa-plus"></i>&nbsp;&nbsp;Add Client</a>
+    </div>
+    <form action="">
+        <div class="input-group input-group-sm mb-3 mt-4">
+            <input name="q" type="text" class="form-control" placeholder="Search-form">
+            <button class="btn-btn-secondary"><i class="fas fa-search"></i></button>
+            <a href="{% url 'backend' %}" class="btn btn-dark" style="margin-left :2px;"><i class="fas fa-sync-alt"></i></a>
+        </div>
+    </form>
+    <center>
+        <table class="table table-bordered table-sm mt-4" style="text-align: center; font-size:14px;">
+            <thead class="table-secondary">
+                <tr>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>Registered</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <!--Data from backend-->
+            {% for client in clients %}
+            <tr>
+                <td>{{client.name}}</td>
+                <td>{{client.phone}}</td>
+                <td>{{client.email}}</td>
+                <td>{{client.age}}</td>
+                <td>{{client.gender}}</td>
+                <td>{{client.cre}ated_at | date:'m/d/y(H:i)'}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </center>
+
+
+    <!--pagination -->
+    <nav class="mt-4" aria-label="Page navigation example">
+        {% if clients.has_other_pages %}
+        <ul class="pagination justify-content-left">
+            {% if clients.has_previous %}
+            <a href="?page=1" class="btn btn-outline-primary mb-4"style="width: 60px; border-radius:1px; border:1px solid #d3d3d3">First</a>
+            <li class="page-item"><a class="page-link" href="?page={{clients.previous_page_number}}"><i class="fas fa-angle-double-left"></i></a></li> 
+            {% else %}
+            <li class="page-item-disabled"></li>
+            {% endif %}
+            {% for i in clients.paginator.page_range %}
+            {% if clients.number ==i %}
+            <li class="page-item active"><span class ="page-link">{{i}}<span class="sr-only"></span></span></li>
+            {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{i}}"></a></li>
+            {% endif %}
+            {% endfor %}
+
+            {% if clients.has_next%}
+            <li class="page-item"><a class="page-link" href="?page={{clients.next_page_number"><i class="fas fa-angle-double-right"></i></a></li>
+             <a href="?page={{ clients.paginator.num_pages }}" class="btn btn-outline-primary mb-4"style="width: 60px; border-radius:1px; border:1px solid #d3d3d3; border-left:noe;" >Last</a>
+            {% else %}
+             <li class="page-item disabled"></li>
+             {% endif %}
+        </ul>
+        {% endif %}
+    </nav>
+</div> <!-- END container-->
+{% endblock content %}
